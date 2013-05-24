@@ -1,4 +1,4 @@
 lua-consistent-hash
 ===================
 
-Consistent hash implemented in lua
+A reimplementation of consistent hash in lua based on replay's consistent hash (https://github.com/replay/ngx_http_consistent_hash)
