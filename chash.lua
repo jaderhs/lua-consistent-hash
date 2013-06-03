@@ -81,16 +81,6 @@ local function chash_init()
 		table.insert(BUCKETS, i, chash_find(math.floor(step * (i - 1))))
 	end
 
-	--ngx.log(ngx.ERR, "print continuum:")
-	--for i=1,#CONTINUUM do
-	--	ngx.log(ngx.ERR, tostring(i-1)..": name "..tostring(CONTINUUM[i][1]).." point "..tostring(tonumber(CONTINUUM[i][2])))
-	--end
-
-	--ngx.log(ngx.ERR, "print buckets:")
-	--for i=1,#BUCKETS do
-	--	ngx.log(ngx.ERR, tostring(i-1)..": name "..tostring(BUCKETS[i][1]).." point "..tostring(tonumber(BUCKETS[i][2])))
-	--end
-
 	M.initialized = true
 end
 
@@ -100,7 +90,10 @@ local function chash_get_upstream(key)
 	end
 
 	local point = math.floor(ngx.crc32_long(key)) --nginx only
-	ngx.log(ngx.ERR, "point is "..tostring(point).." with bucket "..tostring(point%MMC_CONSISTENT_BUCKETS))
+
+	local tries = #HASH_PEERS
+	point = point + (89 * tries)
+
 	return BUCKETS[point % MMC_CONSISTENT_BUCKETS][1]
 end
 M.get_upstream = chash_get_upstream
