@@ -85,7 +85,7 @@ local function chash_init()
 end
 
 local function chash_get_upstream(key)
-	if not initialized then
+	if not M.initialized then
 		chash_init()
 	end
 
