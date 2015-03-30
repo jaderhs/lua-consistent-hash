@@ -93,8 +93,11 @@ local function chash_get_upstream(key)
 
 	local tries = #HASH_PEERS
 	point = point + (89 * tries)
-
-	return BUCKETS[point % MMC_CONSISTENT_BUCKETS][1]
+	local bucket_idx = point % MMC_CONSISTENT_BUCKETS
+  	if bucket_idx == 0 then
+    		bucket_idx = 1
+  	end
+	return BUCKETS[bucket_idx][1]
 end
 M.get_upstream = chash_get_upstream
 
